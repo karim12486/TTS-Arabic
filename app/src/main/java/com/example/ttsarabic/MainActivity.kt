@@ -18,19 +18,14 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.*
 
-class wrapper(private var text: String) {
-
-}
-
 class MainActivity : AppCompatActivity() {
 
+    val client = OkHttpClient()
     private lateinit var delete_button: ImageButton
     private lateinit var import: ImageButton
     private lateinit var edit_text: EditText
     private lateinit var button: Button
-    private val READ_STORAGE_PERMISSION_REQUEST = 123
     private val REQUEST_CODE_OPEN_FILE = 1
-    private var mediaPlayer: MediaPlayer? = null
 
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -66,15 +61,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         button.setOnClickListener {
-            val apiUrl = "http://20.208.137.169:8080/api/tts"
+            val apiUrl = "http://192.168.1.69:8080/api/tts"
             var text = edit_text.text.toString()
             text = "{\"text\":\"$text\"}"
             println(text)
-            val client = OkHttpClient()
+            System.currentTimeMillis()
+            System.currentTimeMillis()
+//            println(TimeUnit.NANOSECONDS.toMillis(end - start))
+            print("ggggggggggggggggggggg")
 
             // Create the request body
 //            val requestBody = RequestBody.create("application/json; charset=utf-16".toMediaTypeOrNull(), text)
-            var requestBody =
+            val requestBody =
                 text.toRequestBody("application/json; charset=utf-16".toMediaTypeOrNull())
             // Create the POST request
             val request = Request.Builder()
@@ -134,6 +132,7 @@ class MainActivity : AppCompatActivity() {
             contentResolver.openInputStream(uri)?.bufferedReader().use { reader ->
                 val content = reader?.readText()
                 edit_text.setText(content)
+                reader?.close()
             }
         } catch (e: IOException) {
             e.printStackTrace()
@@ -170,10 +169,10 @@ class MainActivity : AppCompatActivity() {
         val header = ByteArray(headerSize)
 
         // ChunkID (4 bytes)
-        header[0] = 'R'.toByte()
-        header[1] = 'I'.toByte()
-        header[2] = 'F'.toByte()
-        header[3] = 'F'.toByte()
+        header[0] = 'R'.code.toByte()
+        header[1] = 'I'.code.toByte()
+        header[2] = 'F'.code.toByte()
+        header[3] = 'F'.code.toByte()
 
         // ChunkSize (4 bytes)
         header[4] = (totalSize and 0xFF).toByte()
@@ -182,16 +181,16 @@ class MainActivity : AppCompatActivity() {
         header[7] = (totalSize shr 24 and 0xFF).toByte()
 
         // Format (4 bytes)
-        header[8] = 'W'.toByte()
-        header[9] = 'A'.toByte()
-        header[10] = 'V'.toByte()
-        header[11] = 'E'.toByte()
+        header[8] = 'W'.code.toByte()
+        header[9] = 'A'.code.toByte()
+        header[10] = 'V'.code.toByte()
+        header[11] = 'E'.code.toByte()
 
         // Subchunk1ID (4 bytes)
-        header[12] = 'f'.toByte()
-        header[13] = 'm'.toByte()
-        header[14] = 't'.toByte()
-        header[15] = ' '.toByte()
+        header[12] = 'f'.code.toByte()
+        header[13] = 'm'.code.toByte()
+        header[14] = 't'.code.toByte()
+        header[15] = ' '.code.toByte()
 
         // Subchunk1Size (4 bytes)
         header[16] = 16
@@ -228,10 +227,10 @@ class MainActivity : AppCompatActivity() {
         header[35] = (bitsPerSample shr 8 and 0xFF).toByte()
 
         // Subchunk2ID (4 bytes)
-        header[36] = 'd'.toByte()
-        header[37] = 'a'.toByte()
-        header[38] = 't'.toByte()
-        header[39] = 'a'.toByte()
+        header[36] = 'd'.code.toByte()
+        header[37] = 'a'.code.toByte()
+        header[38] = 't'.code.toByte()
+        header[39] = 'a'.code.toByte()
 
         // Subchunk2Size (4 bytes)
         header[40] = (dataSize and 0xFF).toByte()
