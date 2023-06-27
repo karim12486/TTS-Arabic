@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         import = findViewById(R.id.importer)
         edit_text = findViewById(R.id.editText)
         button = findViewById(R.id.button)
+
         delete_button.setOnClickListener {
             edit_text.setText("")
         }
@@ -64,11 +65,11 @@ class MainActivity : AppCompatActivity() {
             val apiUrl = "http://192.168.1.69:8080/api/tts"
             var text = edit_text.text.toString()
             text = "{\"text\":\"$text\"}"
-            println(text)
+            //println(text)
             System.currentTimeMillis()
             System.currentTimeMillis()
 //            println(TimeUnit.NANOSECONDS.toMillis(end - start))
-            print("ggggggggggggggggggggg")
+            //print("ggggggggggggggggggggg")
 
             // Create the request body
 //            val requestBody = RequestBody.create("application/json; charset=utf-16".toMediaTypeOrNull(), text)
